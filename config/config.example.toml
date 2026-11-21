@@ -1,0 +1,41 @@
+# Copy to config/config.toml and edit. No real secrets belong here.
+
+[app]
+# Absolute application root on the RAID mount. All runtime paths derive from this.
+root = "/mnt/raid1/apps/fitness"
+timezone = "America/Los_Angeles"
+
+[oauth]
+callback_host = "127.0.0.1"
+callback_port = 8765
+callback_path = "/callback"
+scope = "user.metrics"
+# Filenames under secrets/ (not secret values)
+client_id_file = "client_id"
+client_secret_file = "client_secret"
+
+[sync]
+lastupdate_overlap_seconds = 300
+http_timeout_seconds = 30
+http_max_retries = 5
+# Keep false until live discovery proves dual-profile attribution (or two OAuth identities).
+dual_person_sync_enabled = false
+
+[validation]
+weight_min_kg = 20.0
+weight_max_kg = 400.0
+
+[persons.person1]
+database = "person1.sqlite3"
+# Set after authorize/discovery — Withings user/profile id if the API provides one.
+identity_id = ""
+token_file = "tokens_identity1.json"
+enabled = true
+
+[persons.person2]
+database = "person2.sqlite3"
+identity_id = ""
+# Use a separate token file only when a second independently authorized identity exists.
+token_file = "tokens_identity2.json"
+# Leave disabled until discovery confirms reliable attribution.
+enabled = false

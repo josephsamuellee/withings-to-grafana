@@ -1,0 +1,23 @@
+[Unit]
+Description=Withings weight sync (one-shot)
+Documentation=file:///mnt/raid1/apps/fitness/README.md
+RequiresMountsFor=/mnt/raid1/apps/fitness
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=fitness
+Group=fitness
+WorkingDirectory=/mnt/raid1/apps/fitness
+Environment=FITNESS_SYNC_CONFIG=/mnt/raid1/apps/fitness/config/config.toml
+ExecStart=/mnt/raid1/apps/fitness/.venv/bin/fitness-sync --config /mnt/raid1/apps/fitness/config/config.toml sync --all
+Nice=10
+# Fail closed: do not create state if WorkingDirectory/mount is missing
+ProtectSystem=strict
+ReadWritePaths=/mnt/raid1/apps/fitness
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

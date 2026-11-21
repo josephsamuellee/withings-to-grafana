@@ -1,0 +1,12 @@
+[Unit]
+Description=Weekly Withings weight sync
+RequiresMountsFor=/mnt/raid1/apps/fitness
+
+[Timer]
+# Sunday 03:00 in the system local timezone (set timedatectl / TZ on the Pi)
+OnCalendar=Sun *-*-* 03:00:00
+Persistent=true
+Unit=fitness-sync.service
+
+[Install]
+WantedBy=timers.target
